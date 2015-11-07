@@ -37,10 +37,12 @@ public class MetricsCollectorConfig {
   public static final String METRICS_ENABLED = "metrics.enabled";
   public static final String METRICS_POLL_INTERVAL = "metrics.poll";
   public static final String METRICS_TOTAL_TIME = "metrics.time";
+  public static final String METRICS_SYS_INT = "metrics.system.interval";
   public static final String METRICS_PATH = "metrics.path";
 
   public static final int DEFAULT_POLL_INTERVAL = 30 * 1000; // 30 secs
   public static final int DEFAULT_TOTAL_TIME = 5 * 60 * 1000; // 5 mins
+  public static final int DEFAULT_SYS_INT = 2000; // 2 secs
   public static final String DEFAULT_PATH = "/root/";
 
   // storm configuration

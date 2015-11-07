@@ -18,14 +18,22 @@
 
 package storm.benchmark.lib.spout;
 
+import static storm.benchmark.metrics.MetricsCollectorConfig.DEFAULT_SYS_INT;
+import static storm.benchmark.metrics.MetricsCollectorConfig.DEFAULT_TOTAL_TIME;
+import static storm.benchmark.metrics.MetricsCollectorConfig.METRICS_SYS_INT;
+import static storm.benchmark.metrics.MetricsCollectorConfig.METRICS_TOTAL_TIME;
 import backtype.storm.spout.SpoutOutputCollector;
 import backtype.storm.task.TopologyContext;
 import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.topology.base.BaseRichSpout;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Values;
+
 import org.apache.log4j.Logger;
+
+import storm.benchmark.metrics.system.SystemMetricCollectorBuilder;
 import storm.benchmark.tools.FileReader;
+import storm.benchmark.util.BenchmarkUtils;
 
 import java.util.Map;
 
@@ -66,6 +74,11 @@ public class FileReadSpout extends BaseRichSpout {
 	public void open(Map conf, TopologyContext context,
 			SpoutOutputCollector collector) {
 		this.collector = collector;
+		int duration = BenchmarkUtils.getInt(conf, METRICS_TOTAL_TIME, DEFAULT_TOTAL_TIME), 
+				  interval = BenchmarkUtils.getInt(conf, METRICS_SYS_INT, DEFAULT_SYS_INT);
+		SystemMetricCollectorBuilder
+		.build(interval, duration, "/tmp/" + context.getThisComponentId() + "-" + System.currentTimeMillis() / 1000 / 1000)
+		.start();
 	}
 
 	@Override
