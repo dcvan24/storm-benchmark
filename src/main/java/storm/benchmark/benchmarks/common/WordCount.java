@@ -96,7 +96,7 @@ public abstract class WordCount extends StormBenchmark {
 		LOG.info("Duration: " + duration);
 		LOG.info("Interval: " + interval);
 		SystemMetricCollectorBuilder
-			.build(interval, duration, "/tmp/" + context.getThisComponentId() + "-" + System.currentTimeMillis() / 1000 / 1000)
+			.build(interval, duration, "/tmp/" + context.getThisComponentId() + "-" + context.getThisWorkerPort() +  "-" + System.currentTimeMillis())
 			.start();
     }
 
