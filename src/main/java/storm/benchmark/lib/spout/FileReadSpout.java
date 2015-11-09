@@ -77,7 +77,7 @@ public class FileReadSpout extends BaseRichSpout {
 		int duration = BenchmarkUtils.getInt(conf, METRICS_TOTAL_TIME, DEFAULT_TOTAL_TIME), 
 				  interval = BenchmarkUtils.getInt(conf, METRICS_SYS_INT, DEFAULT_SYS_INT);
 		SystemMetricCollectorBuilder
-		.build(interval, duration, "/tmp/" + context.getThisComponentId() + "-" + System.currentTimeMillis() / 1000 / 1000)
+		.build(interval, duration, "/tmp/" + context.getThisComponentId() + "-"  + context.getThisTaskId()  + "-" + System.currentTimeMillis())
 		.start();
 	}
 
