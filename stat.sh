@@ -8,6 +8,6 @@ awk -F',' '{
   }
 }
 END{
-  print tp/count, spout_tp/count, lat/count, max_lat/count;
+  print tp/count * 100, spout_tp/count, lat/count, max_lat/count;
 }
 ' $1
