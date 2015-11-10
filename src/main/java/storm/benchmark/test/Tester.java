@@ -112,6 +112,7 @@ class Task
 		System.out.println("Actual used: " + mem.getActualUsed() / 1000 / 1000 + " MB");
 		System.out.println("Used: " + mem.getUsed() / 1000 / 1000 + " MB");
 		System.out.println("Used%: " + mem.getUsedPercent() + "%");
+		System.out.println("Actual Used: " + mem.getActualUsed() / 1000 / 1000 + " MB" );
 		System.out.println("===========================");
 		
 		long txBytes = net.getTxBytes(),

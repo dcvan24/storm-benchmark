@@ -32,9 +32,10 @@ public final class PrintMetricSender
 			Map<String, Object> metrics){
 		Map<String, Object> diskMetrics = (Map<String, Object>)metrics.get(DISK),
 											 netMetrics = (Map<String, Object>)metrics.get(NET);
-		writer.printf("%.3f, %.3f, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d\n", 
+		writer.printf("%.3f, %.3f, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d\n", 
 				(Double)metrics.get(CPU),
 				(Double)metrics.get(MEM),
+				(Long)metrics.get(BUFFER_CACHED),
 				(Long)diskMetrics.get(READS),
 				(Long)diskMetrics.get(READ_BYTES),
 				(Long)diskMetrics.get(WRITES),
