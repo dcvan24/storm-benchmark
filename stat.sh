@@ -1,5 +1,5 @@
 awk -F',' '{
-  if(NR > 16){
+  if(NR > '$2'){
      tp += $10;
      spout_tp += $12;
      lat += $13;
@@ -8,6 +8,6 @@ awk -F',' '{
   }
 }
 END{
-  print tp/count * 100, spout_tp/count, lat/count, max_lat/count;
+  print tp/count, spout_tp/count, lat/count, max_lat/count;
 }
 ' $1

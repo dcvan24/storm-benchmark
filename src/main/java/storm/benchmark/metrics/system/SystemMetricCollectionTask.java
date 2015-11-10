@@ -18,7 +18,6 @@ public final class SystemMetricCollectionTask
 
 	public static final String CPU = "cpu",
 												  MEM = "memory",
-												  BUFFER_CACHED = "buffer/cached",
 												  DISK = "disk",
 												  READS = "reads",
 												  WRITES = "writes",
@@ -43,7 +42,6 @@ public final class SystemMetricCollectionTask
 																  prevNetMetrics = new HashMap<String, Object>(),
 																  diskMetrics = new HashMap<String, Object>(),
 										 						  netMetrics = new HashMap<String, Object>();
-	private long prevBufferCached;
 	
 	public SystemMetricCollectionTask(
 			SystemMetricSender sender){
@@ -67,7 +65,6 @@ public final class SystemMetricCollectionTask
 	
 	private void init(){
 		try{
-			initMemMetrics();
 			initDiskMetrics();
 			initNetworkMetrics();
 		}catch(SigarException e){
@@ -84,16 +81,7 @@ public final class SystemMetricCollectionTask
 	private void collectMemoryMetrics() 
 			throws SigarException{
 		Mem mem = sigar.getMem();
-		long bufferCached = mem.getActualUsed();
 		metrics.put(MEM, mem.getUsedPercent());
-		metrics.put(BUFFER_CACHED,  bufferCached - prevBufferCached);
-		prevBufferCached = bufferCached;
-	}
-	
-	private void initMemMetrics() 
-			throws SigarException{
-		Mem mem = sigar.getMem();
-		prevBufferCached = mem.getActualUsed();
 	}
 	
 	private void initDiskMetrics() 
