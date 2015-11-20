@@ -49,7 +49,7 @@ public final class SystemMetricCollector
 	}
 	
 	private static synchronized boolean selectMonitorThread(){
-		if(isMonitorThreadSelected){
+		if(!isMonitorThreadSelected){
 			isMonitorThreadSelected = true;
 			return true;
 		}
