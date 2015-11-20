@@ -1,5 +1,6 @@
 package storm.benchmark.metrics.system;
 
+import java.io.File;
 import java.util.Timer;
 
 public final class SystemMetricCollector 
@@ -7,6 +8,7 @@ public final class SystemMetricCollector
 	
 	private final int interval;
 	private final int duration;
+	private String output;
 	private SystemMetricSender sender =
 			new LogMetricSender();
 	
@@ -22,12 +24,17 @@ public final class SystemMetricCollector
 			int duration,
 			String output){
 		this(interval, duration);
-		sender = new PrintMetricSender(output);
+		this.output = output;
 	}
 	
 	@Override
 	public void run(){
+		if(output != null 
+				&& isOutputCreated(output)){
+			return;
+		}
 		try{
+			sender = new PrintMetricSender(output);
 			Timer timer = new Timer(true);
 			timer.scheduleAtFixedRate(
 					new SystemMetricCollectionTask(sender), 
@@ -41,4 +48,8 @@ public final class SystemMetricCollector
 		}
 	}
 
+	private boolean isOutputCreated(
+			String output){
+		return new File(output).exists();
+	}
 }

@@ -71,12 +71,14 @@ public abstract class WordCount extends StormBenchmark {
     TopologyBuilder builder = new TopologyBuilder();
 
     builder.setSpout(SPOUT_ID, spout, spoutNum)
-    .addConfiguration("site", spoutSite);
-    builder.setBolt(SPLIT_ID, new SplitSentence(), spBoltNum).localOrShuffleGrouping(
-            SPOUT_ID).addConfiguration("site", splitSite);
-    builder.setBolt(COUNT_ID, new Count(), cntBoltNum).fieldsGrouping(SPLIT_ID,
-      new Fields(SplitSentence.FIELDS))
-      	.addConfiguration("site", countSite);
+    			.addConfiguration("site", spoutSite);
+    builder.setBolt(SPLIT_ID, new SplitSentence(), spBoltNum)
+    			.localOrShuffleGrouping(SPOUT_ID)
+    			.addConfiguration("site", splitSite);
+    builder.setBolt(COUNT_ID, new Count(), cntBoltNum)
+    			.fieldsGrouping(SPLIT_ID,
+    					new Fields(SplitSentence.FIELDS))
+    			.addConfiguration("site", countSite);
 
     return builder.createTopology();
   }
@@ -96,7 +98,7 @@ public abstract class WordCount extends StormBenchmark {
 		LOG.info("Duration: " + duration);
 		LOG.info("Interval: " + interval);
 		SystemMetricCollectorBuilder
-			.build(interval, duration, "/tmp/" + context.getThisComponentId() + "-"  + context.getThisTaskId()  + "-" + System.currentTimeMillis())
+			.build(interval, duration, "/tmp/" + context.getThisComponentId() + '-' + System.currentTimeMillis() / 10000)
 			.start();
     }
 
@@ -127,7 +129,7 @@ public abstract class WordCount extends StormBenchmark {
 		LOG.info("Duration: " + duration);
 		LOG.info("Interval: " + interval);
 		SystemMetricCollectorBuilder
-			.build(interval, duration, "/tmp/" + context.getThisComponentId() + "-"  + context.getThisTaskId()  + "-" + System.currentTimeMillis())
+			.build(interval, duration, "/tmp/" + context.getThisComponentId() + "-" + System.currentTimeMillis() / 10000)
 			.start();
     }
 
