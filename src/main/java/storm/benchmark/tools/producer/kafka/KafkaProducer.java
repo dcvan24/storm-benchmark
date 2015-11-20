@@ -67,8 +67,10 @@ public abstract class KafkaProducer  implements IProducer {
     final int boltNum = BenchmarkUtils.getInt(config, BOLT_NUM, DEFAULT_BOLT_NUM);
 
     TopologyBuilder builder = new TopologyBuilder();
-    builder.setSpout(SPOUT_ID, spout, spoutNum);
-    builder.setBolt(BOLT_ID, bolt, boltNum).localOrShuffleGrouping(SPOUT_ID);
+    builder.setSpout(SPOUT_ID, spout, spoutNum)
+    			.addConfiguration("site",config.get("site"));
+    builder.setBolt(BOLT_ID, bolt, boltNum).localOrShuffleGrouping(SPOUT_ID)
+    			.addConfiguration("site", config.get("site"));
     return builder.createTopology();
   }
 
@@ -81,12 +83,14 @@ public abstract class KafkaProducer  implements IProducer {
     Map brokerConfig = new HashMap();
     String brokers = (String) Utils.get(options, BROKER_LIST, "localhost:9092");
     String topic = (String) Utils.get(options, TOPIC, KafkaUtils.DEFAULT_TOPIC);
+    String site = (String)Utils.get(options, "site", "");
     brokerConfig.put("metadata.broker.list", brokers);
     brokerConfig.put("serializer.class", "kafka.serializer.StringEncoder");
     brokerConfig.put("key.serializer.class", "kafka.serializer.StringEncoder");
     brokerConfig.put("request.required.acks", "1");
     kafkaConfig.put(KafkaBolt.KAFKA_BROKER_PROPERTIES, brokerConfig);
     kafkaConfig.put(KafkaBolt.TOPIC, topic);
+    kafkaConfig.put("site", site);
     return kafkaConfig;
   }
 
