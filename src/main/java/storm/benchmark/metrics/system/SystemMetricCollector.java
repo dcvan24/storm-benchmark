@@ -48,7 +48,7 @@ public final class SystemMetricCollector
 		}
 	}
 
-	private boolean isOutputCreated(
+	private static synchronized boolean isOutputCreated(
 			String output){
 		return new File(output).exists();
 	}
