@@ -1,10 +1,11 @@
 package storm.benchmark.metrics.system;
 
-import java.io.File;
 import java.util.Timer;
 
 public final class SystemMetricCollector 
 	implements Runnable{
+	
+	private static boolean isMonitorThreadSelected = false;
 	
 	private final int interval;
 	private final int duration;
@@ -29,8 +30,7 @@ public final class SystemMetricCollector
 	
 	@Override
 	public void run(){
-		if(output != null 
-				&& isOutputCreated(output)){
+		if(!selectMonitorThread()){
 			return;
 		}
 		try{
@@ -47,9 +47,13 @@ public final class SystemMetricCollector
 			sender.close();
 		}
 	}
-
-	private static synchronized boolean isOutputCreated(
-			String output){
-		return new File(output).exists();
+	
+	private static synchronized boolean selectMonitorThread(){
+		if(isMonitorThreadSelected){
+			isMonitorThreadSelected = true;
+			return true;
+		}
+		return false;
 	}
+
 }
